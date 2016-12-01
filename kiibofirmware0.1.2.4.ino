@@ -1,11 +1,14 @@
-#include <TimerOne.h>
+
+
+#include <TimerOne.h> //comes standard with the full teensyduino installation
+/*Assign all pins from the teensy as columns or rows*/
 int C1 = 7;
 int C2 = 8;
 int C3 = 9;
 int C4 = 10;
 int C5 = 11;
 int C6 = 12;
-int C7 = 6; // pin 13 bleek speciale pin te zijn
+int C7 = 6; //pin 13 is reserved for the led
 int C8 = 14;
 int C9 = 15;
 int C10 = 16;
@@ -17,25 +20,65 @@ int R3 = 21;
 int R4 = 20;
 int R5 = 19;
 
-int seqNum = 0;
-int rowSelected = 0;
-int buttonPushedR1C1 = 0;
-int buttonPushedR2C1 = 0;// the current reading from the input pin
-int lastButtonPushedR1C1 = 0;   // the previous reading from the input pin
-int lastButtonPushedR2C1 = 0;
+/* define some variables*/
+int seqNum = 0; //state of the row scanning sequence
+//for row1()
+int buttonPushedR1C1 = 0; 
+int lastButtonPushedR1C1 = 0;
 int buttonPushedR1C2 = 0;
-int buttonPushedR2C2 = 0;// the current reading from the input pin
-int lastButtonPushedR1C2 = 0;   // the previous reading from the input pin
+int lastButtonPushedR1C2 = 0;
+int buttonPushedR1C3 = 0;
+int lastButtonPushedR1C3 = 0;
+int buttonPushedR1C4 = 0;
+int lastButtonPushedR1C4 = 0;
+int buttonPushedR1C5 = 0;
+int lastButtonPushedR1C5 = 0;
+int buttonPushedR1C6 = 0;
+int lastButtonPushedR1C6 = 0;
+int buttonPushedR1C7 = 0;
+int lastButtonPushedR1C7 = 0;
+int buttonPushedR1C8 = 0;
+int lastButtonPushedR1C8 = 0;
+int buttonPushedR1C9 = 0;
+int lastButtonPushedR1C9 = 0;
+int buttonPushedR1C10 = 0;
+int lastButtonPushedR1C10 = 0;
+int buttonPushedR1C11 = 0;
+int lastButtonPushedR1C11 = 0;
+int buttonPushedR1C12 = 0;
+int lastButtonPushedR1C12 = 0;
+//for row2()
+int buttonPushedR2C1 = 0;
+int lastButtonPushedR2C1 = 0;
+int buttonPushedR2C2 = 0;
 int lastButtonPushedR2C2 = 0;
-int lastButtonPushed = 0;
-int buttonPushed = 0;
+int buttonPushedR2C3 = 0;
+int lastButtonPushedR2C3 = 0;
+int buttonPushedR2C4 = 0;
+int lastButtonPushedR2C4 = 0;
+int buttonPushedR2C5 = 0;
+int lastButtonPushedR2C5 = 0;
+int buttonPushedR2C6 = 0;
+int lastButtonPushedR2C6 = 0;
+int buttonPushedR2C7 = 0;
+int lastButtonPushedR2C7 = 0;
+int buttonPushedR2C8 = 0;
+int lastButtonPushedR2C8 = 0;
+int buttonPushedR2C9 = 0;
+int lastButtonPushedR2C9 = 0;
+int buttonPushedR2C10 = 0;
+int lastButtonPushedR2C10 = 0;
+int buttonPushedR2C11 = 0;
+int lastButtonPushedR2C11 = 0;
+int buttonPushedR2C12 = 0;
+int lastButtonPushedR2C12 = 0;
+
 
 void setup() {
-    //start de serial Connection
-    Serial.begin(250000);
-    pinMode(C1, INPUT_PULLUP);
-    pinMode(C2, INPUT_PULLUP);
-    pinMode(C3, INPUT_PULLUP);
+    Serial.begin(250000);  //start serial Connection for Serial.println() uses
+    pinMode(C1, INPUT_PULLUP); //define all collumns as inputs
+    pinMode(C2, INPUT_PULLUP);   //note that INPUT_PULLUP is used instead of INPUT which makes all logic inverted
+    pinMode(C3, INPUT_PULLUP);   
     pinMode(C4, INPUT_PULLUP);
     pinMode(C5, INPUT_PULLUP);
     pinMode(C6, INPUT_PULLUP);
@@ -45,12 +88,12 @@ void setup() {
     pinMode(C10, INPUT_PULLUP);
     pinMode(C11, INPUT_PULLUP);
     pinMode(C12, INPUT_PULLUP);
-    pinMode(R1, OUTPUT);
+    pinMode(R1, OUTPUT); //define all rows as outputs
     pinMode(R2, OUTPUT);
     pinMode(R3, OUTPUT);
     pinMode(R4, OUTPUT);
     pinMode(R5, OUTPUT);
-    digitalWrite(R1, HIGH);
+    digitalWrite(R1, HIGH); //set all rows to high (not pressed) at the beginnning
     digitalWrite(R2, HIGH);
     digitalWrite(R3, HIGH);
     digitalWrite(R4, HIGH);
@@ -58,19 +101,19 @@ void setup() {
 }
 
 void row1() {
-    digitalWrite(R1, LOW);
-    int Col1 = digitalRead(C1);
-    if(Col1 == LOW)
+    digitalWrite(R1, LOW); //make the row that has to be scanned LOW
+    int Col1 = digitalRead(C1); //read is pin C1 is HIGH or LOW
+    if(Col1 == LOW) // if C1 is Low
     {
-        buttonPushedR1C1 = 1;
-        if(lastButtonPushedR1C1 != buttonPushedR1C1) {
-            lastButtonPushedR1C1 = 1;
-            Serial.println("1;1");
-            delay(1);
+        buttonPushedR1C1 = 1; //the button pushed is C1
+        if(lastButtonPushedR1C1 != buttonPushedR1C1) { //check if the previous button pushed was C1
+            lastButtonPushedR1C1 = 1; //if not now it is
+            Serial.println("1;1"); //print message to Serial Monitor for test purposes 
+            delay(1); //liitle delay against double readings
         }
-        int resetCol1 = digitalRead(C1);
-        if(resetCol1 == HIGH) {
-            lastButtonPushedR1C1 = 0;
+        int resetCol1 = digitalRead(C1); //read C1 again for LOW or HIGH state
+        if(resetCol1 == HIGH) { //if C1 is released  
+            lastButtonPushedR1C1 = 0; //C1 can be read again when pressed
         }
     }
     
@@ -91,21 +134,21 @@ void row1() {
     int Col3 = digitalRead(C3);
     if(Col3 == LOW)
     {
-        buttonPushed = 3;
-        if(lastButtonPushed != buttonPushed) {
-            lastButtonPushed = 3;
+        buttonPushedR1C3 = 3;
+        if(lastButtonPushedR1C3 != buttonPushedR1C3) {
+            lastButtonPushedR1C3 = 3;
             Serial.println("3;1");
             delay(1);
         }
         int resetCol2 = digitalRead(C3);
         if(resetCol2 == HIGH) {
-            lastButtonPushed = 0;
+            lastButtonPushedR1C3 = 0;
         }
     }
     int Col4 = digitalRead(C4);
     if(Col4 == LOW)
     {
-        buttonPushed = 4;
+        buttonPushedRC = 4;
         if(lastButtonPushed != buttonPushed) {
             lastButtonPushed = 4;
             Serial.println("4;1");
