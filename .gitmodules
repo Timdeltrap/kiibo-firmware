@@ -1,0 +1,3 @@
+[submodule "HISSTools_Impulse_Response_Toolbox"]
+	path = HISSTools_Impulse_Response_Toolbox
+	url = https://github.com/HISSTools/HISSTools_Impulse_Response_Toolbox.git
